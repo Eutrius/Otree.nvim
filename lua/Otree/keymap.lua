@@ -11,7 +11,10 @@ end
 
 local function should_redirect_buffer(args)
 	local curr_win = vim.api.nvim_get_current_win()
-	return curr_win == state.win and args.buf ~= state.buf and vim.bo[args.buf].filetype ~= state.buf_filetype
+	return curr_win == state.win
+		and args.buf ~= state.buf
+		and vim.bo[args.buf].filetype ~= state.buf_filetype
+		and vim.bo[args.buf].filetype ~= "oil"
 end
 
 local function handle_buffer_redirection(args)

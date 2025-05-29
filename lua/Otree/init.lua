@@ -41,9 +41,9 @@ local default_config = {
 		vertical_line = "│",
 	},
 	icons = {
-		title = " ",
-		directory = "",
-		empty_dir = "",
+		title = " ",
+		directory = "",
+		empty_dir = "",
 	},
 	highlights = {
 		directory = "Directory",
@@ -111,7 +111,8 @@ local function setup_oil(oil)
 		cleanup_delay_ms = false,
 		default_file_explorer = false,
 		keymaps = {
-			["st"] = { "actions.toggle_trash", mode = "n" },
+			["."] = { "actions.toggle_hidden", mode = "n" },
+			["t"] = { "actions.toggle_trash", mode = "n" },
 		},
 		view_options = {
 			show_hidden = state.show_hidden,

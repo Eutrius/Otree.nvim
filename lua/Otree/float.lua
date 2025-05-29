@@ -96,6 +96,12 @@ local function setup_buffer_keymaps(buf)
 			noremap = true,
 		})
 	end
+	vim.keymap.set("n", "<CR>", function()
+		vim.cmd("w")
+	end, {
+		buffer = buf,
+		noremap = true,
+	})
 end
 
 local function handle_buffer_leave(args)
@@ -128,10 +134,18 @@ local function setup_buffer_autocmds(buf)
 	})
 end
 
+local function reset_show_hidden()
+	if require("oil.config").view_options.show_hidden ~= state.show_hidden then
+		oil.toggle_hidden()
+	end
+end
+
 function M._close()
 	close_window_if_valid(M.inner_win_id)
 	close_window_if_valid(M.outer_win_id)
 	reset_window_ids()
+	reset_show_hidden()
+	vim.api.nvim_win_set_buf(state.win, state.buf)
 	require("Otree.actions").refresh()
 end
 
@@ -146,44 +160,38 @@ function M._create_windows()
 end
 
 function M._update_title(path)
-	if not M.outer_win_id or not vim.api.nvim_win_is_valid(M.outer_win_id) then
-		return
-	end
-
+	-- if not M.outer_win_id or not vim.api.nvim_win_is_valid(M.outer_win_id) then
+	-- 	return
+	-- end
 	local formatted_path = format_path_for_title(path)
-	local title_text = state.icons.title .. " " .. formatted_path
+	vim.wo[state.win].winbar = "%#" .. state.highlights.title .. "#" .. state.icons.title .. formatted_path
 
-	local buf = vim.api.nvim_win_get_buf(M.outer_win_id)
-	vim.api.nvim_buf_clear_namespace(buf, state.ns, 0, 1)
-	vim.api.nvim_buf_set_extmark(buf, state.ns, 0, 0, {
-		virt_text = { { title_text, state.highlights.title } },
-	})
+	--
+	-- local buf = vim.api.nvim_win_get_buf(state.win)
+	-- vim.api.nvim_buf_clear_namespace(buf, state.ns, 0, 1)
+	-- vim.api.nvim_buf_set_extmark(buf, state.ns, 0, 0, {
+	-- 	virt_text = { { title_text, state.highlights.title } },
+	-- })
 end
 
 function M.open_float(path)
-	M._create_windows()
-
-	if not vim.api.nvim_win_is_valid(M.inner_win_id) then
-		return
-	end
-
-	vim.api.nvim_set_current_win(M.inner_win_id)
+	-- M._create_windows()
+	--
+	-- if not vim.api.nvim_win_is_valid(M.inner_win_id) then
+	-- 	return
+	-- end
+	--
+	-- vim.api.nvim_set_current_win(M.inner_win_id)
+	-- vim.api.nvim_set_current_win(state.win)
 
 	oil.open(path)
 	M._update_title(path)
-	configure_window_options()
+	vim.api.nvim_set_option_value("number", false, { scope = "local", win = state.win })
+	-- configure_window_options()
 
 	local buf = vim.api.nvim_get_current_buf()
 	setup_buffer_keymaps(buf)
-	setup_buffer_autocmds(buf)
-end
-
-function M.setup_keymaps(buf)
-	setup_buffer_keymaps(buf)
-end
-
-function M.setup_autocmds(buf)
-	setup_buffer_autocmds(buf)
+	-- setup_buffer_autocmds(buf)
 end
 
 return M
