@@ -203,13 +203,19 @@ function M.close_dir()
 end
 
 function M.focus_file()
-	local prev_win_bufnr = vim.fn.winbufnr(vim.fn.winnr("#"))
-	local target_path = vim.api.nvim_buf_get_name(prev_win_bufnr)
-	if target_path == "" then
-		vim.notify("Otree: failed to focus previous buffer", vim.log.levels.WARN)
+	local curr_node = get_node()
+	if not curr_node then
 		return
 	end
+
+	local prev_win_bufnr = vim.fn.winbufnr(vim.fn.winnr("#"))
+	local target_path = vim.api.nvim_buf_get_name(prev_win_bufnr)
 	target_path = vim.fn.fnamemodify(target_path, ":p")
+
+	if target_path == "" or curr_node.full_path == target_path then
+		return
+	end
+
 	local segments = {}
 	local path = target_path
 	local prev_path = ""
