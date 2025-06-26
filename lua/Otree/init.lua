@@ -1,79 +1,7 @@
 local actions = require("Otree.actions")
+local config = require("Otree.config")
 local state = require("Otree.state")
 local M = {}
-
-local default_config = {
-  win_size = 30,
-  open_on_startup = false,
-  use_default_keymaps = true,
-  hijack_netrw = true,
-  show_hidden = false,
-  show_ignore = false,
-  cursorline = true,
-  oil = "float",
-
-  ignore_patterns = {},
-
-  keymaps = {
-    ["<CR>"] = "actions.select",
-    ["l"] = "actions.select",
-    ["h"] = "actions.close_dir",
-    ["q"] = "actions.close_win",
-    ["<C-h>"] = "actions.goto_parent",
-    ["<C-l>"] = "actions.goto_dir",
-    ["<M-h>"] = "actions.goto_home_dir",
-    ["cd"] = "actions.change_home_dir",
-    ["L"] = "actions.open_dirs",
-    ["H"] = "actions.close_dirs",
-    ["o"] = "actions.oil_dir",
-    ["O"] = "actions.oil_into_dir",
-    ["t"] = "actions.open_tab",
-    ["v"] = "actions.open_vsplit",
-    ["s"] = "actions.open_split",
-    ["."] = "actions.toggle_hidden",
-    ["i"] = "actions.toggle_ignore",
-    ["r"] = "actions.refresh",
-    ["f"] = "actions.focus_file",
-    ["?"] = "actions.open_help",
-  },
-
-  tree = {
-    space_after_icon = " ",
-    space_after_connector = " ",
-    connector_space = " ",
-    connector_last = "└",
-    connector_middle = "├",
-    vertical_line = "│",
-  },
-
-  icons = {
-    title = " ",
-    default_file = "",
-    default_directory = "",
-    empty_dir = "",
-    trash = " ",
-    keymap = "⌨ ",
-    oil = " ",
-  },
-
-  highlights = {
-    directory = "Directory",
-    file = "Normal",
-    tree = "Comment",
-    title = "TelescopeTitle",
-    float_normal = "TelescopeNormal",
-    float_border = "TelescopeBorder",
-  },
-
-  float = {
-    center = true,
-    width_ratio = 0.4,
-    height_ratio = 0.7,
-    padding = 2,
-    cursorline = true,
-    border = "rounded",
-  },
-}
 
 local function hijack_netrw(opts)
   vim.g.loaded_netrw = 1
@@ -148,13 +76,6 @@ local function setup_state(opts)
 end
 
 local function check_dependencies()
-  state.fd = vim.fn.executable("fd") == 1 and "fd"
-    or (vim.fn.executable("fdfind") == 1 and "fdfind")
-  if not state.fd then
-    vim.notify("Otree: neither 'fd' nor 'fdfind' is installed", vim.log.levels.ERROR)
-    return false
-  end
-
   local ok_oil, _ = pcall(require, "oil")
   if not ok_oil then
     vim.notify("Otree: oil.nvim is required but not installed", vim.log.levels.ERROR)
@@ -171,7 +92,7 @@ function M.setup(opts)
   opts = opts or {}
   local user_keymaps = opts.keymaps
   local disable_default_km = (opts.use_default_keymaps == false)
-  opts = vim.tbl_deep_extend("force", default_config, opts)
+  opts = vim.tbl_deep_extend("force", config, opts)
   if disable_default_km then
     opts.keymaps = user_keymaps or {}
   end

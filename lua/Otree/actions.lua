@@ -96,6 +96,10 @@ local function get_node()
   return node
 end
 
+function M.print_nodes()
+  vim.print(state.nodes)
+end
+
 function M.open_dirs()
   local node = get_node()
   if not node then
