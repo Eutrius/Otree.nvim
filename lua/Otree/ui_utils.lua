@@ -126,20 +126,17 @@ function M.setup_keymaps(buf)
     end
   end
 
-  local close_keys = { "q", "<Esc>" }
-  for _, key in ipairs(close_keys) do
-    vim.keymap.set("n", key, function()
-      local curr_win = vim.api.nvim_get_current_win()
-      if curr_win == state.win or curr_win == require("Otree.float").inner_win_id then
-        if state.oil ~= "float" and curr_win == state.win then
-          vim.api.nvim_win_set_buf(state.win, state.buf)
-        else
-          require("Otree.float").close_float()
-        end
-        actions.refresh()
+  vim.keymap.set("n", "<Esc>", function()
+    local curr_win = vim.api.nvim_get_current_win()
+    if curr_win == state.win or curr_win == require("Otree.float").inner_win_id then
+      if state.oil ~= "float" and curr_win == state.win then
+        vim.api.nvim_win_set_buf(state.win, state.buf)
+      else
+        require("Otree.float").close_float()
       end
-    end, { noremap = true, silent = true })
-  end
+      actions.refresh()
+    end
+  end, { noremap = true, silent = true })
 end
 
 function M.setup_autocmds(buf)
