@@ -149,7 +149,8 @@ function M.create_buffer()
 end
 
 function M.create_window()
-	vim.cmd("topleft " .. tostring(state.win_size) .. "vsplit")
+	local position_cmd = state.left_size and "topleft" or "botright"
+	vim.cmd(position_cmd .. " " .. tostring(state.win_size) .. "vsplit")
 	state.win = vim.api.nvim_get_current_win()
 	vim.api.nvim_win_set_buf(state.win, state.buf)
 
