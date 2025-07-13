@@ -7,6 +7,7 @@ local M = {
   show_hidden = false,
   show_ignore = false,
   cursorline = true,
+  open_on_left = true,
   oil = "float",
 
   ignore_patterns = { "RPN.cpp" },

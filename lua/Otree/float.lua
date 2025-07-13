@@ -15,7 +15,7 @@ local function calculate_window_geometry(config)
   local height = vim.o.lines
   local outer_width = math.floor(width * config.width_ratio)
   local outer_height = math.floor(height * config.height_ratio)
-  local col = state.win_size + 1
+  local col = state.open_on_left and state.win_size + 1 or width - state.win_size - outer_width - 3
   local row = 0
   if config.center then
     col = math.floor((width - outer_width) / 2)

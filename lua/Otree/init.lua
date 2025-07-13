@@ -68,6 +68,7 @@ local function setup_state(opts)
     "ignore_patterns",
     "keymaps",
     "win_size",
+    "open_on_left",
     "highlights",
     "tree",
     "icons",
