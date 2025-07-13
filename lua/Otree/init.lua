@@ -45,6 +45,10 @@ local function hijack_netrw(opts)
 end
 
 local function setup_oil()
+  local ok, _ = pcall(require, "oil")
+  if not ok then
+    return
+  end
   if vim.fn.exists(":Oil") ~= 2 then
     require("oil").setup({
       default_file_explorer = false,
@@ -75,20 +79,7 @@ local function setup_state(opts)
   end
 end
 
-local function check_dependencies()
-  local ok_oil, _ = pcall(require, "oil")
-  if not ok_oil then
-    vim.notify("Otree: oil.nvim is required but not installed", vim.log.levels.ERROR)
-    return false
-  end
-  return true
-end
-
 function M.setup(opts)
-  if check_dependencies() ~= true then
-    return
-  end
-
   opts = opts or {}
   local user_keymaps = opts.keymaps
   local disable_default_km = (opts.use_default_keymaps == false)

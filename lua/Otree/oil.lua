@@ -1,5 +1,4 @@
 local float = require("Otree.float")
-local oil = require("oil")
 local state = require("Otree.state")
 local M = {}
 
@@ -33,7 +32,7 @@ function M.open_oil(path, index)
       return
     end
   end
-  oil.open(path, {}, function()
+  require("oil").open(path, {}, function()
     vim.api.nvim_win_set_cursor(0, { index, 0 })
   end)
   M.set_title(path, state.icons.oil)

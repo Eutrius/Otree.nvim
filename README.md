@@ -1,17 +1,16 @@
 ## 🌲 Otree.nvim
 
-**Otree.nvim** is a lightweight and customizable file tree explorer for [Neovim](https://neovim.io), built for speed, simplicity, and seamless user experience. It integrates tightly with [`oil.nvim`](https://github.com/stevearc/oil.nvim) to provide an elegant and efficient file operations workflow.
+**Otree.nvim** is a lightweight and customizable file tree explorer for [Neovim](https://neovim.io), built for speed, simplicity, and seamless user experience. It optionally integrates with [`oil.nvim`](https://github.com/stevearc/oil.nvim) to provide an elegant and efficient file operations workflow.
 
 <video src="https://private-user-images.githubusercontent.com/24679992/455416305-dd4ef477-4890-4c9b-9be5-cd6efef356fd.mp4?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTAwNjM5OTYsIm5iZiI6MTc1MDA2MzY5NiwicGF0aCI6Ii8yNDY3OTk5Mi80NTU0MTYzMDUtZGQ0ZWY0NzctNDg5MC00YzliLTliZTUtY2Q2ZWZlZjM1NmZkLm1wND9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA2MTYlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNjE2VDA4NDgxNlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWUwYzE5NTEwMTE2MzYyYzRmMjUzZWRlNWU4ZmJiMTEwZGYzMmM2YTdjNGRlNTYxMTIyMThhNWVkNDY4MzgwNWUmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.PiRiw9Sj13iIfVwE2rPTsxw-SU2VszXOtAMMT5GkKmk" controls="controls" style="max-width: 730px;">
 </video>
 
 ---
 
-
 ## ✨ Features
 
-- **Fast and responsive** file tree using `fd`
-- **Tight integration** with [`oil.nvim`](https://github.com/stevearc/oil.nvim) for file operations
+- **Fast and responsive** file tree using `fd` (optional)
+- **Optional integration** with [`oil.nvim`](https://github.com/stevearc/oil.nvim) for enhanced file operations
 - **Supports icons** from [mini.icons](https://github.com/echasnovski/mini.icons), [nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons), or a **default fallback**
 - **Highly customizable** keybindings and appearance
 - **Optional Netrw hijack** for a cleaner startup experience
@@ -22,9 +21,12 @@
 
 ## ⚙️ Requirements
 
-- [Neovim 0.8+](https://neovim.io)
-- [`fd`](https://github.com/sharkdp/fd)
-- [`oil.nvim`](https://github.com/stevearc/oil.nvim)
+- [Neovim 0.10+](https://neovim.io)
+
+### Optional Dependencies
+
+- [`fd`](https://github.com/sharkdp/fd) - For faster directory traversal
+- [`oil.nvim`](https://github.com/stevearc/oil.nvim) - For file operations (create, delete, move, rename files/directories)
 
 ---
 
@@ -37,7 +39,9 @@ return {
     "Eutrius/Otree.nvim",
     lazy = false,
     dependencies = {
+        -- Optional: Enhanced file operations
         "stevearc/oil.nvim",
+        -- Optional: Icon support
         -- { "echasnovski/mini.icons", opts = {} },
         -- "nvim-tree/nvim-web-devicons",
     },
@@ -98,15 +102,15 @@ require("Otree").setup({
         vertical_line = "│",
     },
 
-	icons = {
-		title = " ",
-		default_file = "",
-		default_directory = "",
-		empty_dir = "",
-		trash = " ",
-		keymap = "⌨ ",
-		oil = " ",
-	},
+    icons = {
+        title = " ",
+        default_file = "",
+        default_directory = "",
+        empty_dir = "",
+        trash = " ",
+        keymap = "⌨ ",
+        oil = " ",
+    },
 
     highlights = {
         directory = "Directory",
@@ -143,8 +147,8 @@ require("Otree").setup({
 | `cd`        | Change home directory                   |
 | `L`         | Open all directories at the same level  |
 | `H`         | Close all directories at the same level |
-| `o`         | Open parent directory in Oil            |
-| `O`         | Open selected directory in Oil          |
+| `o`         | Open parent directory in Oil\*          |
+| `O`         | Open selected directory in Oil\*        |
 | `t`         | Open file in new tab                    |
 | `v`         | Open file in vertical split             |
 | `s`         | Open file in horizontal split           |
@@ -153,6 +157,8 @@ require("Otree").setup({
 | `r`         | Refresh tree view                       |
 | `f`         | Focus the previous buffer               |
 | `?`         | Show help with keybinding reference     |
+
+\*_Requires oil.nvim for file operations_
 
 ---
 
@@ -167,11 +173,13 @@ require("Otree").setup({
 
 ## ⚙️ Oil.nvim Integration
 
-**Otree** integrates seamlessly with [oil.nvim](https://github.com/stevearc/oil.nvim) for enhanced file management capabilities.
+**Otree** can optionally integrate with [oil.nvim](https://github.com/stevearc/oil.nvim) for enhanced file management capabilities.
+
+⚠️ **Note**: Without oil.nvim, there are no file operations available (create, delete, move, rename). Oil integration is required for any file management beyond basic navigation and opening.
 
 ### Automatic Configuration
 
-If `oil.nvim` is not already configured, Otree will automatically set it up with these optimized defaults:
+If `oil.nvim` is installed but not already configured, Otree will automatically set it up with these optimized defaults:
 
 ```lua
 require("oil").setup({
@@ -206,3 +214,13 @@ Oil views display dynamically generated titles with icons and relative paths for
 ### ⚠️ Important Note
 
 **Do not use `oil_preview` when Oil is open in floating mode.** This may cause rendering or focus issues. Close floating Oil windows before using preview functionality.
+
+---
+
+## 🔧 Fallback Behavior
+
+When optional dependencies are not available:
+
+- **Without `fd`**: Falls back to basic directory listing (slower performance)
+- **Without `oil.nvim`**: No file operations available - only navigation and opening files is supported
+- **Without icon plugins**: Uses simple default icons for files and directories

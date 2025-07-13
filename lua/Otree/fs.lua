@@ -2,6 +2,7 @@ local state = require("Otree.state")
 local has_mini_icons, mini_icons = pcall(require, "mini.icons")
 local has_dev_icons, devicons = pcall(require, "nvim-web-devicons")
 local fd = vim.fn.executable("fd") == 1 and "fd" or (vim.fn.executable("fdfind") == 1 and "fdfind")
+
 local M = {}
 
 local uv = vim.uv or vim.loop

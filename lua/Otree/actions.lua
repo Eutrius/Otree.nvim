@@ -1,6 +1,7 @@
 local fs = require("Otree.fs")
 local state = require("Otree.state")
 local ui = require("Otree.ui")
+local oil, _ = pcall(require, "oil")
 local M = {}
 
 local function close_dir(node)
@@ -67,9 +68,7 @@ local function open_file(mode, node)
   end
 
   vim.api.nvim_set_current_win(target_win)
-
   local escaped_path = vim.fn.fnameescape(node.full_path)
-
   vim.cmd(string.format("%s %s", mode, escaped_path))
 end
 
@@ -217,7 +216,7 @@ function M.focus_file()
   end
 
   local prev_win_bufnr = vim.fn.winbufnr(vim.fn.winnr("#"))
-  local target_path = vim.api.nvim_buf_get_name(prev_win_bufnr)
+  local target_path = vim.fn.bufname(prev_win_bufnr)
   target_path = vim.fn.fnamemodify(target_path, ":p")
 
   if target_path == "" or curr_node.full_path == target_path then
@@ -374,6 +373,9 @@ function M.goto_dir()
 end
 
 function M.oil_dir()
+  if not oil then
+    return
+  end
   local node = get_node()
   local path = state.cwd
   local node_index = nil
@@ -395,6 +397,9 @@ function M.oil_dir()
 end
 
 function M.oil_into_dir()
+  if not oil then
+    return
+  end
   local node = get_node()
   local path = state.cwd
   if node then
@@ -410,8 +415,11 @@ end
 function M.toggle_hidden()
   state.prev_cur_pos = nil
   state.show_hidden = not state.show_hidden
-  require("oil").toggle_hidden()
   M.refresh()
+  if not oil then
+    return
+  end
+  require("oil").toggle_hidden()
 end
 
 function M.toggle_ignore()
