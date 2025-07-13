@@ -66,6 +66,21 @@ require("Otree").setup({
     show_hidden = false,
     show_ignore = false,
     cursorline = true,
+	open_on_left = true,
+	oil = "float",
+
+	ignore_patterns = {},
+
+	keymaps = {
+		["<CR>"] = "actions.select",
+		["l"] = "actions.select",
+		["h"] = "actions.close_dir",
+		["q"] = "actions.close_win",
+		["<C-h>"] = "actions.goto_parent",
+		["<C-l>"] = "actions.goto_dir",
+		["<M-h>"] = "actions.goto_home_dir",
+		["cd"] = "actions.change_home_dir",
+		["L"] = "actions.open_dirs",
     oil = "float",
 
     ignore_patterns = {},
