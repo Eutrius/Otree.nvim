@@ -10,7 +10,7 @@ local M = {
   open_on_left = true,
   oil = "float",
 
-  ignore_patterns = { "RPN.cpp" },
+  ignore_patterns = {},
 
   keymaps = {
     ["<CR>"] = "actions.select",
@@ -33,7 +33,6 @@ local M = {
     ["r"] = "actions.refresh",
     ["f"] = "actions.focus_file",
     ["?"] = "actions.open_help",
-    ["p"] = "actions.print_nodes",
   },
 
   tree = {
