@@ -37,14 +37,14 @@ local function get_icon(type, fullpath, filename)
 
   if type == "directory" then
     local icon = is_dir_empty(fullpath) and state.icons.empty_dir or state.icons.default_directory
-    return icon, state.highlights.directory
+    return icon, "OtreeDirectory"
   end
 
   if has_dev_icons then
     return devicons.get_icon(filename, nil, { default = true })
   end
 
-  return state.icons.default_file, state.highlights.file
+  return state.icons.default_file, "OtreeFile"
 end
 
 local function make_node(full_path, base, type)

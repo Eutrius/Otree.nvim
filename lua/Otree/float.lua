@@ -50,11 +50,7 @@ local function create_outer_window(geometry)
     zindex = 1,
   })
 
-  local winhl = string.format(
-    "Normal:%s,FloatBorder:%s",
-    state.highlights.float_normal,
-    state.highlights.float_border
-  )
+  local winhl = string.format("Normal:%s,FloatBorder:%s", "OtreeFloatNormal", "OtreeFloatBorder")
   vim.api.nvim_win_set_option(M.outer_win_id, "winhl", winhl)
 end
 
@@ -171,7 +167,7 @@ function M.set_title(title)
   local buf = vim.api.nvim_win_get_buf(M.outer_win_id)
   vim.api.nvim_buf_clear_namespace(buf, state.ns, 0, 1)
   vim.api.nvim_buf_set_extmark(buf, state.ns, 0, 0, {
-    virt_text = { { title, state.highlights.title } },
+    virt_text = { { title, "OtreeTitle" } },
   })
 end
 

@@ -39,7 +39,7 @@ local function display_keys(buf)
     line = 0,
     col = 0,
     len = -1,
-    hl = state.highlights.tree,
+    hl = "OtreeTree",
   })
   for _, k in ipairs(keys) do
     local v = state.keymaps[k]:sub(#"actions." + 1)
@@ -54,13 +54,13 @@ local function display_keys(buf)
       line = lnum,
       col = 0,
       len = key_end,
-      hl = state.highlights.directory,
+      hl = "OtreeDirectory",
     })
     table.insert(highlights, {
       line = lnum,
       col = key_end + 1,
       len = 2,
-      hl = state.highlights.tree,
+      hl = "OtreeTree",
     })
   end
 

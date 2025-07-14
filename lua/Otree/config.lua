@@ -58,9 +58,9 @@ local M = {
     directory = "Directory",
     file = "Normal",
     tree = "Comment",
-    title = "TelescopeTitle",
-    float_normal = "TelescopeNormal",
-    float_border = "TelescopeBorder",
+    title = "Title",
+    float_normal = "NormalFloat",
+    float_border = "FloatBorder",
   },
 
   float = {

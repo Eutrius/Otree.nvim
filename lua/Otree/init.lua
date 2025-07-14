@@ -44,7 +44,7 @@ local function hijack_netrw(opts)
   })
 end
 
-local function setup_oil()
+local function setup_oil(opts)
   local ok, _ = pcall(require, "oil")
   if not ok then
     return
@@ -57,7 +57,7 @@ local function setup_oil()
       cleanup_delay_ms = false,
     })
   end
-  require("oil.config").view_options.show_hidden = state.show_hidden
+  require("oil.config").view_options.show_hidden = opts.show_hidden
 end
 
 local function setup_state(opts)
@@ -69,7 +69,6 @@ local function setup_state(opts)
     "keymaps",
     "win_size",
     "open_on_left",
-    "highlights",
     "tree",
     "icons",
     "float",
@@ -77,6 +76,25 @@ local function setup_state(opts)
   }
   for _, key in ipairs(config_keys) do
     state[key] = opts[key]
+  end
+end
+
+local function setup_highlights(opts)
+  local hi = opts.highlights
+
+  local highlights = {
+    OtreeDirectory = hi.directory,
+    OtreeTree = hi.tree,
+    OtreeTitle = hi.title,
+    OtreeFile = hi.file,
+    OtreeFloatNormal = hi.float_normal,
+    OtreeFloatBorder = hi.float_border,
+  }
+
+  for name, target in pairs(highlights) do
+    if vim.fn.hlexists(name) == 0 then
+      vim.api.nvim_set_hl(0, name, { link = target })
+    end
   end
 end
 
@@ -89,12 +107,13 @@ function M.setup(opts)
     opts.keymaps = user_keymaps or {}
   end
 
-  setup_state(opts)
-  setup_oil()
+  setup_oil(opts)
+  setup_highlights(opts)
   if opts.hijack_netrw then
     hijack_netrw(opts)
   end
 
+  setup_state(opts)
   vim.api.nvim_create_user_command("Otree", actions.toggle_tree, {})
   vim.api.nvim_create_user_command("OtreeFocus", actions.focus_tree, {})
 

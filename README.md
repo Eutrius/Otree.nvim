@@ -75,7 +75,7 @@ require("Otree").setup({
         ["<CR>"] = "actions.select",
         ["l"] = "actions.select",
         ["h"] = "actions.close_dir",
-        ["q"] = "actions.close_win",
+        ["<Esc>"] = "actions.close_win",
         ["<C-h>"] = "actions.goto_parent",
         ["<C-l>"] = "actions.goto_dir",
         ["<M-h>"] = "actions.goto_home_dir",
@@ -116,10 +116,10 @@ require("Otree").setup({
     highlights = {
         directory = "Directory",
         file = "Normal",
-        title = "TelescopeTitle",
         tree = "Comment",
-        float_normal = "TelescopeNormal",
-        float_border = "TelescopeBorder",
+        title = "Title",
+        float_normal = "NormalFloat",
+        float_border = "FloatBorder",
     },
 
     float = {
@@ -169,6 +169,21 @@ require("Otree").setup({
 | ------------- | --------------------------- |
 | `:Otree`      | Toggle the file tree window |
 | `:OtreeFocus` | Focus the file tree window  |
+
+---
+
+## 🎨 Highlight Groups
+
+Otree defines the following highlight groups that you can customize to match your colorscheme:
+
+| Highlight Group    | Default Link  | Description                 |
+| ------------------ | ------------- | --------------------------- |
+| `OtreeDirectory`   | `Directory`   | Directory names in the tree |
+| `OtreeFile`        | `Normal`      | File names in the tree      |
+| `OtreeTree`        | `Comment`     | Tree connectors and lines   |
+| `OtreeTitle`       | `Title`       | Window title                |
+| `OtreeFloatNormal` | `NormalFloat` | Floating window background  |
+| `OtreeFloatBorder` | `FloatBorder` | Floating window border      |
 
 ---
 

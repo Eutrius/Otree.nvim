@@ -3,7 +3,7 @@ local state = require("Otree.state")
 local M = {}
 
 local function get_node_highlight(node)
-  return node.type == "directory" and state.highlights.directory or state.highlights.file
+  return node.type == "directory" and "OtreeDirectory" or "OtreeFile"
 end
 
 local function render_basic_lines(nodes, lines, highlights)
@@ -38,7 +38,7 @@ local function create_tree_chunks(node, node_index, nodes)
   for _ = 1, node.level do
     table.insert(chunks, {
       state.tree.vertical_line .. state.tree.connector_space,
-      state.highlights.tree,
+      "OtreeTree",
     })
     npadding = npadding - 1
   end
@@ -49,7 +49,7 @@ local function create_tree_chunks(node, node_index, nodes)
 
   table.insert(chunks, {
     padding .. connector .. state.tree.space_after_connector,
-    state.highlights.tree,
+    "OtreeTree",
   })
 
   local icon = node.icon
@@ -124,7 +124,7 @@ local function configure_window_options()
 end
 
 function M.set_title(title)
-  vim.wo[state.win].winbar = "%#" .. state.highlights.title .. "#" .. title
+  vim.wo[state.win].winbar = "%#OtreeTitle#" .. title
 end
 
 function M.render()
