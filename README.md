@@ -66,8 +66,8 @@ require("Otree").setup({
     show_hidden = false,
     show_ignore = false,
     cursorline = true,
-	open_on_left = true,
-	oil = "float",
+    open_on_left = true,
+    oil = "float",
 
     ignore_patterns = {},
 
@@ -141,7 +141,7 @@ require("Otree").setup({
 | ----------- | --------------------------------------- |
 | `<CR>`, `l` | Select file or open folder              |
 | `h`         | Close selected directory                |
-| `q`         | Close file tree window                  |
+| `<Esc>`     | Close file tree window                  |
 | `<C-h>`     | Navigate to parent directory            |
 | `<C-l>`     | Enter selected directory                |
 | `<M-h>`     | Go to home directory                    |
@@ -199,8 +199,8 @@ You can configure how Oil opens using the `oil` option in your Otree setup:
 
 ```lua
 require("Otree").setup({
-  oil = "float"  -- Opens Oil in a floating window (default)
-  -- Any other value opens Oil directly inside the tree window
+    oil = "float"  -- Opens Oil in a floating window (default)
+    -- Any other value opens Oil directly inside the tree window
 })
 ```
 
