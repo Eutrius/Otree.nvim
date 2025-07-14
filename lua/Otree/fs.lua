@@ -25,14 +25,19 @@ local function cached_stat(path)
   if stat_cache[path] then
     return stat_cache[path]
   end
-  local stat = uv.fs_stat(path)
+  local stat = uv.fs_lstat(path)
+  if stat.type == "link" then
+    local restat = uv.fs_stat(path)
+    stat.type = restat.type
+    stat.link = true
+  end
   stat_cache[path] = stat
   return stat
 end
 
 local function get_icon(type, fullpath, filename)
   if has_mini_icons then
-    return mini_icons.get(type == "directory" and "directory" or "file", filename)
+    return mini_icons.get(type, filename)
   end
 
   if type == "directory" then
@@ -47,22 +52,29 @@ local function get_icon(type, fullpath, filename)
   return state.icons.default_file, "OtreeFile"
 end
 
-local function make_node(full_path, base, type)
+local function make_node(full_path, base, stat)
   local rel = full_path:sub(#base + 2)
   local filename = vim.fn.fnamemodify(full_path, ":t")
   local level = rel and #rel > 0 and select(2, rel:gsub("/", "")) or 0
-  local icon, icon_hl = get_icon(type, full_path, filename)
+  local icon, icon_hl = get_icon(stat.type, full_path, filename)
 
-  return {
+  local node = {
     filename = filename,
     full_path = full_path,
     parent_path = get_parent_path(full_path),
-    type = type,
+    type = stat.type,
     is_open = false,
     level = level,
     icon = icon,
     icon_hl = icon_hl,
   }
+
+  if stat.link then
+    node.link = true
+    node.link_path = vim.loop.fs_realpath(full_path)
+  end
+
+  return node
 end
 
 local function sort_nodes(nodes)
@@ -152,7 +164,7 @@ function M.fallback_scan_dir(dir)
               local fullpath = vim.fs.normalize(dir .. "/" .. name)
               local stat = cached_stat(fullpath)
               if stat then
-                table.insert(nodes, make_node(fullpath, dir, stat.type))
+                table.insert(nodes, make_node(fullpath, dir, stat))
               end
             end
           end
@@ -160,7 +172,7 @@ function M.fallback_scan_dir(dir)
           local fullpath = vim.fs.normalize(dir .. "/" .. name)
           local stat = cached_stat(fullpath)
           if stat then
-            table.insert(nodes, make_node(fullpath, dir, stat.type))
+            table.insert(nodes, make_node(fullpath, dir, stat))
           end
         end
       end
@@ -200,7 +212,7 @@ function M.scan_dir(dir)
         path = vim.fs.normalize(dir .. "/" .. path)
         local stat = cached_stat(path)
         if stat then
-          local node = make_node(path, dir, stat.type)
+          local node = make_node(path, dir, stat)
           table.insert(nodes, node)
         end
       end

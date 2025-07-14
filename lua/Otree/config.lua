@@ -61,6 +61,7 @@ local M = {
     title = "Title",
     float_normal = "NormalFloat",
     float_border = "FloatBorder",
+    link_path = "Comment",
   },
 
   float = {

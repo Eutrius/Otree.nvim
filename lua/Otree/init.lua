@@ -89,6 +89,7 @@ local function setup_highlights(opts)
     OtreeFile = hi.file,
     OtreeFloatNormal = hi.float_normal,
     OtreeFloatBorder = hi.float_border,
+    OtreeLinkPath = hi.link_path,
   }
 
   for name, target in pairs(highlights) do

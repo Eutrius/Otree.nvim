@@ -8,14 +8,24 @@ end
 
 local function render_basic_lines(nodes, lines, highlights)
   for i, node in ipairs(nodes) do
-    local display = node.filename
+    local display = node.filename .. (node.link and " -> " .. node.link_path or "")
     table.insert(lines, display)
+
     table.insert(highlights, {
       line = i - 1,
       col = 0,
-      len = #node.filename + 2,
+      len = #node.filename,
       hl = get_node_highlight(node),
     })
+
+    if node.link then
+      table.insert(highlights, {
+        line = i - 1,
+        col = #node.filename,
+        len = #node.link_path + 4,
+        hl = "OtreeLinkPath",
+      })
+    end
   end
 end
 
