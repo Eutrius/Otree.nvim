@@ -17,10 +17,6 @@ local function is_dir_empty(path)
   return entry == nil
 end
 
-local function get_parent_path(path)
-  return path:match("^(.+)/[^/]+$")
-end
-
 local function cached_stat(path)
   if stat_cache[path] then
     return stat_cache[path]
@@ -61,7 +57,7 @@ local function make_node(full_path, base, stat)
   local node = {
     filename = filename,
     full_path = full_path,
-    parent_path = get_parent_path(full_path),
+    parent_path = vim.fs.dirname(full_path),
     type = stat.type,
     is_open = false,
     level = level,

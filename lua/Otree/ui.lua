@@ -148,6 +148,7 @@ function M.render()
   add_tree_structure(nodes)
   M.set_title(title)
   vim.api.nvim_buf_set_option(state.buf, "modifiable", false)
+  vim.api.nvim_exec_autocmds("User", { pattern = "OtreeRender" })
 end
 
 function M.create_buffer()

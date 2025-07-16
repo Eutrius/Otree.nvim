@@ -90,6 +90,14 @@ local function setup_highlights(opts)
     OtreeFloatNormal = hi.float_normal,
     OtreeFloatBorder = hi.float_border,
     OtreeLinkPath = hi.link_path,
+    OtreeGitUntracked = hi.git_untracked,
+    OtreeGitIgnored = hi.git_ignored,
+    OtreeGitModified = hi.git_modified,
+    OtreeGitAdded = hi.git_added,
+    OtreeGitDeleted = hi.git_deleted,
+    OtreeGitConflict = hi.git_conflict,
+    OtreeGitRenamed = hi.git_renamed,
+    OtreeGitCopied = hi.git_copied,
   }
 
   for name, target in pairs(highlights) do
@@ -117,6 +125,10 @@ function M.setup(opts)
   setup_state(opts)
   vim.api.nvim_create_user_command("Otree", actions.toggle_tree, {})
   vim.api.nvim_create_user_command("OtreeFocus", actions.focus_tree, {})
+
+  if opts.git_signs then
+    require("Otree.git").setup()
+  end
 
   return M
 end

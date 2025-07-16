@@ -8,6 +8,7 @@ local M = {
   show_ignore = false,
   cursorline = true,
   open_on_left = true,
+  git_signs = true,
   oil = "float",
 
   ignore_patterns = {},
@@ -62,6 +63,14 @@ local M = {
     float_normal = "NormalFloat",
     float_border = "FloatBorder",
     link_path = "Comment",
+    git_ignored = "NonText",
+    git_untracked = "DiagnosticInfo",
+    git_modified = "DiagnosticWarn",
+    git_added = "DiagnosticHint",
+    git_deleted = "DiagnosticError",
+    git_conflict = "DiagnosticError",
+    git_renamed = "DiagnosticHint",
+    git_copied = "DiagnosticHint",
   },
 
   float = {

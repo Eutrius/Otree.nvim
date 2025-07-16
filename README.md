@@ -12,6 +12,7 @@
 - **Fast and responsive** file tree using `fd` (optional)
 - **Optional integration** with [`oil.nvim`](https://github.com/stevearc/oil.nvim) for enhanced file operations
 - **Supports icons** from [mini.icons](https://github.com/echasnovski/mini.icons), [nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons), or a **default fallback**
+- **Optional Git signs** to show file changes
 - **Highly customizable** keybindings and appearance
 - **Optional Netrw hijack** for a cleaner startup experience
 - **Toggle visibility** for hidden and ignored files
@@ -67,6 +68,7 @@ require("Otree").setup({
     show_ignore = false,
     cursorline = true,
     open_on_left = true,
+    git_signs = true,
     oil = "float",
 
     ignore_patterns = {},
@@ -120,6 +122,15 @@ require("Otree").setup({
         title = "Title",
         float_normal = "NormalFloat",
         float_border = "FloatBorder",
+        link_path = "Comment",
+        git_ignored = "NonText",
+        git_untracked = "DiagnosticInfo",
+        git_modified = "DiagnosticWarn",
+        git_added = "DiagnosticHint",
+        git_deleted = "DiagnosticError",
+        git_conflict = "DiagnosticError",
+        git_renamed = "DiagnosticHint",
+        git_copied = "DiagnosticHint",
     },
 
     float = {
@@ -176,20 +187,46 @@ require("Otree").setup({
 
 Otree defines the following highlight groups that you can customize to match your colorscheme:
 
-| Highlight Group    | Default Link  | Description                 |
-| ------------------ | ------------- | --------------------------- |
-| `OtreeDirectory`   | `Directory`   | Directory names in the tree |
-| `OtreeFile`        | `Normal`      | File names in the tree      |
-| `OtreeTree`        | `Comment`     | Tree connectors and lines   |
-| `OtreeTitle`       | `Title`       | Window title                |
-| `OtreeFloatNormal` | `NormalFloat` | Floating window background  |
-| `OtreeFloatBorder` | `FloatBorder` | Floating window border      |
+| Highlight Group     | Default Link      | Description                 |
+| ------------------- | ----------------- | --------------------------- |
+| `OtreeDirectory`    | `Directory`       | Directory names in the tree |
+| `OtreeFile`         | `Normal`          | File names in the tree      |
+| `OtreeTree`         | `Comment`         | Tree connectors and lines   |
+| `OtreeTitle`        | `Title`           | Window title                |
+| `OtreeFloatNormal`  | `NormalFloat`     | Floating window background  |
+| `OtreeFloatBorder`  | `FloatBorder`     | Floating window border      |
+| `OtreeLinkPath`     | `Comment`         | Symlink path display        |
+| `OtreeGitUntracked` | `DiagnosticInfo`  | Git untracked files         |
+| `OtreeGitIgnored`   | `NonText`         | Git ignored files           |
+| `OtreeGitModified`  | `DiagnosticWarn`  | Git modified files          |
+| `OtreeGitAdded`     | `DiagnosticHint`  | Git added files             |
+| `OtreeGitDeleted`   | `DiagnosticError` | Git deleted files           |
+| `OtreeGitConflict`  | `DiagnosticError` | Git merge conflicts         |
+| `OtreeGitRenamed`   | `DiagnosticHint`  | Git renamed files           |
+| `OtreeGitCopied`    | `DiagnosticHint`  | Git copied files            |
+
+---
+
+## 🔧 Git Signs
+
+Otree uses a set of icons and highlight groups to visually indicate Git status within the tree view.
+
+| Git Status | Symbol | Icon | Highlight Group     |
+| ---------- | ------ | ---- | ------------------- |
+| Ignored    | `!`    | `! ` | `OtreeGitIgnored`   |
+| Untracked  | `?`    | `? ` | `OtreeGitUntracked` |
+| Modified   | `M`    | `~ ` | `OtreeGitModified`  |
+| Added      | `A`    | `+ ` | `OtreeGitAdded`     |
+| Deleted    | `D`    | `- ` | `OtreeGitDeleted`   |
+| Renamed    | `R`    | `> ` | `OtreeGitRenamed`   |
+| Copied     | `C`    | `= ` | `OtreeGitCopied`    |
+| Conflict   | `U`    | `! ` | `OtreeGitConflict`  |
 
 ---
 
 ## ⚙️ Oil.nvim Integration
 
-**Otree** can optionally integrate with [oil.nvim](https://github.com/stevearc/oil.nvim) for enhanced file management capabilities.
+Otree can optionally integrate with [oil.nvim](https://github.com/stevearc/oil.nvim) for enhanced file management capabilities.
 
 ⚠️ **Note**: Without oil.nvim, there are no file operations available (create, delete, move, rename). Oil integration is required for any file management beyond basic navigation and opening.
 
