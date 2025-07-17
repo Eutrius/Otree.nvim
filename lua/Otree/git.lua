@@ -62,7 +62,7 @@ local function fetch_git_status(callback)
   end
 
   vim.system(
-    { "git", "-C", state.git_root, "status", "--porcelain" },
+    { "git", "-C", state.git_root, "status", "--porcelain", "--ignored" },
     { text = true },
     function(obj)
       local status_map = {}
