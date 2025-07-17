@@ -21,12 +21,21 @@ local function cached_stat(path)
   if stat_cache[path] then
     return stat_cache[path]
   end
+
   local stat = uv.fs_lstat(path)
+  if not stat then
+    return nil
+  end
+
   if stat.type == "link" then
     local restat = uv.fs_stat(path)
+    if not restat then
+      return nil
+    end
     stat.type = restat.type
     stat.link = true
   end
+
   stat_cache[path] = stat
   return stat
 end
