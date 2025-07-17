@@ -95,6 +95,9 @@ local function check_modified_buffers()
 end
 
 local function handle_window_enter()
+  if state.focus_on_enter then
+    require("Otree.actions").focus_file()
+  end
   if check_last_window(state.win) then
     if check_modified_buffers() then
       vim.api.nvim_buf_delete(state.buf, { force = true })
@@ -140,7 +143,7 @@ function M.setup_keymaps(buf)
 end
 
 function M.setup_autocmds(buf)
-  local augroup = state.augroup
+  local augroup = vim.api.nvim_create_augroup("OtreeTree", { clear = true })
 
   vim.api.nvim_create_autocmd("BufEnter", {
     group = augroup,

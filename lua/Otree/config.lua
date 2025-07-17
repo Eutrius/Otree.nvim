@@ -7,6 +7,7 @@ local M = {
   show_hidden = false,
   show_ignore = false,
   cursorline = true,
+  focus_on_enter = true,
   open_on_left = true,
   git_signs = true,
   oil = "float",

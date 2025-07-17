@@ -65,6 +65,7 @@ local function setup_state(opts)
     "show_hidden",
     "show_ignore",
     "cursorline",
+    "focus_on_enter",
     "ignore_patterns",
     "keymaps",
     "win_size",
