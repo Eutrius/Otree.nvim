@@ -9,7 +9,8 @@ local M = {
   cursorline = true,
   focus_on_enter = false,
   open_on_left = true,
-  git_signs = true,
+  git_signs = false,
+  lsp_signs = false,
   oil = "float",
 
   ignore_patterns = {},
@@ -72,6 +73,10 @@ local M = {
     git_conflict = "DiagnosticError",
     git_renamed = "DiagnosticHint",
     git_copied = "DiagnosticHint",
+    lsp_warn = "DiagnosticWarn",
+    lsp_info = "DiagnosticInfo",
+    lsp_hint = "DiagnosticHint",
+    lsp_error = "DiagnosticError",
   },
 
   float = {

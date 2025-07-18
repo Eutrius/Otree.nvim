@@ -12,7 +12,7 @@
 - **Fast and responsive** file tree using `fd` (optional)
 - **Optional integration** with [`oil.nvim`](https://github.com/stevearc/oil.nvim) for enhanced file operations
 - **Supports icons** from [mini.icons](https://github.com/echasnovski/mini.icons), [nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons), or a **default fallback**
-- **Optional Git signs** to show file changes
+- **Optional Git and LSP signs** to show file changes and diagnostics
 - **Highly customizable** keybindings and appearance
 - **Optional Netrw hijack** for a cleaner startup experience
 - **Toggle visibility** for hidden and ignored files
@@ -67,10 +67,11 @@ require("Otree").setup({
     show_hidden = false,
     show_ignore = false,
     cursorline = true,
+    focus_on_enter = false,
     open_on_left = true,
-    git_signs = true,
+    git_signs = false,
+    lsp_signs = false,
     oil = "float",
-
     ignore_patterns = {},
 
     keymaps = {
@@ -131,6 +132,10 @@ require("Otree").setup({
         git_conflict = "DiagnosticError",
         git_renamed = "DiagnosticHint",
         git_copied = "DiagnosticHint",
+        lsp_warn = "DiagnosticWarn",
+        lsp_info = "DiagnosticInfo",
+        lsp_hint = "DiagnosticHint",
+        lsp_error = "DiagnosticError",
     },
 
     float = {
@@ -204,6 +209,10 @@ Otree defines the following highlight groups that you can customize to match you
 | `OtreeGitConflict`  | `DiagnosticError` | Git merge conflicts         |
 | `OtreeGitRenamed`   | `DiagnosticHint`  | Git renamed files           |
 | `OtreeGitCopied`    | `DiagnosticHint`  | Git copied files            |
+| `OtreeLspInfo`      | `DiagnosticInfo`  | LSP informational messages  |
+| `OtreeLspHint`      | `DiagnosticHint`  | LSP hints and suggestions   |
+| `OtreeLspWarn`      | `DiagnosticWarn`  | LSP warnings                |
+| `OtreeLspError`     | `DiagnosticError` | LSP errors                  |
 
 ---
 
@@ -221,6 +230,19 @@ Otree uses a set of icons and highlight groups to visually indicate Git status w
 | Renamed    | `R`    | `> ` | `OtreeGitRenamed`   |
 | Copied     | `C`    | `= ` | `OtreeGitCopied`    |
 | Conflict   | `U`    | `! ` | `OtreeGitConflict`  |
+
+---
+
+## 🔧 Lsp Signs
+
+Otree uses a fix icon "•" and a set of highlight groups to visually indicate Lsp diagnostics within the tree view.
+
+| Lsp Diagnostic | Highlight Group |
+| -------------- | --------------- |
+| Info           | `OtreeLspInfo`  |
+| Hint           | `OtreeLspHint`  |
+| Warn           | `OtreeLspWarn`  |
+| Error          | `OtreeLspError` |
 
 ---
 

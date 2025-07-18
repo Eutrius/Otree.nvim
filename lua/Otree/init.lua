@@ -91,15 +91,29 @@ local function setup_highlights(opts)
     OtreeFloatNormal = hi.float_normal,
     OtreeFloatBorder = hi.float_border,
     OtreeLinkPath = hi.link_path,
-    OtreeGitUntracked = hi.git_untracked,
-    OtreeGitIgnored = hi.git_ignored,
-    OtreeGitModified = hi.git_modified,
-    OtreeGitAdded = hi.git_added,
-    OtreeGitDeleted = hi.git_deleted,
-    OtreeGitConflict = hi.git_conflict,
-    OtreeGitRenamed = hi.git_renamed,
-    OtreeGitCopied = hi.git_copied,
   }
+
+  if opts.git_signs then
+    highlights = vim.tbl_deep_extend("keep", highlights, {
+      OtreeGitUntracked = hi.git_untracked,
+      OtreeGitIgnored = hi.git_ignored,
+      OtreeGitModified = hi.git_modified,
+      OtreeGitAdded = hi.git_added,
+      OtreeGitDeleted = hi.git_deleted,
+      OtreeGitConflict = hi.git_conflict,
+      OtreeGitRenamed = hi.git_renamed,
+      OtreeGitCopied = hi.git_copied,
+    })
+  end
+
+  if opts.lsp_signs then
+    highlights = vim.tbl_deep_extend("keep", highlights, {
+      OtreeLspHint = hi.lsp_hint,
+      OtreeLspWarn = hi.lsp_warn,
+      OtreeLspError = hi.lsp_error,
+      OtreeLspInfo = hi.lsp_info,
+    })
+  end
 
   for name, target in pairs(highlights) do
     if vim.fn.hlexists(name) == 0 then
@@ -111,26 +125,30 @@ end
 function M.setup(opts)
   opts = opts or {}
   local user_keymaps = opts.keymaps
-  local disable_default_km = (opts.use_default_keymaps == false)
   opts = vim.tbl_deep_extend("force", config, opts)
-  if disable_default_km then
-    opts.keymaps = user_keymaps or {}
-  end
 
   setup_oil(opts)
   setup_highlights(opts)
+
+  if not opts.use_default_keymaps then
+    opts.keymaps = user_keymaps or {}
+  end
+
   if opts.hijack_netrw then
     hijack_netrw(opts)
   end
-
-  setup_state(opts)
-  vim.api.nvim_create_user_command("Otree", actions.toggle_tree, {})
-  vim.api.nvim_create_user_command("OtreeFocus", actions.focus_tree, {})
 
   if opts.git_signs then
     require("Otree.git").setup()
   end
 
+  if opts.lsp_signs then
+    require("Otree.lsp").setup()
+  end
+
+  setup_state(opts)
+  vim.api.nvim_create_user_command("Otree", actions.toggle_tree, {})
+  vim.api.nvim_create_user_command("OtreeFocus", actions.focus_tree, {})
   return M
 end
 

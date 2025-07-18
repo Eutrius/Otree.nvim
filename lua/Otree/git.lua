@@ -114,7 +114,6 @@ function M.add_git_status_extmarks()
   end
 
   vim.api.nvim_buf_clear_namespace(state.buf, state.git_ns, 0, -1)
-  vim.api.nvim_buf_set_option(state.buf, "modifiable", true)
 
   local git_root = state.git_root
   local status_map = vim.deepcopy(state.status_map or {})
@@ -164,8 +163,6 @@ function M.add_git_status_extmarks()
       })
     end
   end
-
-  vim.api.nvim_buf_set_option(state.buf, "modifiable", false)
 end
 
 function M.refresh_git_status()
