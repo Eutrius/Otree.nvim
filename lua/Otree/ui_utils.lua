@@ -95,9 +95,6 @@ local function check_modified_buffers()
 end
 
 local function handle_window_enter()
-  if state.focus_on_enter then
-    require("Otree.actions").focus_file()
-  end
   if check_last_window(state.win) then
     if check_modified_buffers() then
       vim.api.nvim_buf_delete(state.buf, { force = true })
@@ -107,6 +104,9 @@ local function handle_window_enter()
     end
   else
     handle_window_cleanup()
+  end
+  if state.focus_on_enter then
+    vim.schedule(require("Otree.actions").focus_file)
   end
 end
 

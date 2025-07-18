@@ -282,7 +282,8 @@ function M.open_win(path)
   end
 
   ui.create_window()
-  if state.prev_cur_pos then
+  if state.focus_on_tree then
+  elseif state.prev_cur_pos then
     vim.api.nvim_win_set_cursor(0, state.prev_cur_pos)
   else
     vim.api.nvim_win_set_cursor(0, { 1, 0 })
