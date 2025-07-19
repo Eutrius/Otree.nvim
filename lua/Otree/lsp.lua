@@ -42,7 +42,7 @@ end
 
 local function find_parent_in_tree(path_to_line, file_path, root)
   local path = file_path
-  while path and path ~= root do
+  while path and path ~= root and path ~= "/" do
     if path_to_line[path] then
       return path
     end
