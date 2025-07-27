@@ -126,6 +126,28 @@ function M.close_dirs()
   ui.render()
 end
 
+function M.select_then_close()
+  local cursor = vim.api.nvim_win_get_cursor(state.win)
+  local line = cursor[1]
+  local node = get_node()
+  if not node then
+    return
+  end
+  if node.type == "directory" then
+    if not node.is_open then
+      open_dir(node)
+      local total_line = vim.api.nvim_buf_line_count(state.buf)
+      vim.api.nvim_win_set_cursor(state.win, { math.min(line + 1, total_line), 0 })
+    else
+      close_dir(node)
+    end
+    ui.render()
+  elseif node.type == "file" then
+    open_file("drop", node)
+    M.close_win()
+  end
+end
+
 function M.select()
   local cursor = vim.api.nvim_win_get_cursor(state.win)
   local line = cursor[1]
